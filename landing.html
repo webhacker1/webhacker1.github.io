@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WEB HACKER — Платформа для преподавателей и студентов</title>
+  <meta name="description" content="WEB HACKER — курсы, уроки, тесты, прогресс, сертификаты и пакеты для вуза.">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f4f7fc;
+      --surface: #fff;
+      --line: #d8e3f2;
+      --text: #152b4f;
+      --muted: #617a9f;
+      --blue: #1d74e8;
+      --green: #23b363;
+      --orange: #ef912f;
+      --violet: #6a5be8;
+      --pink: #ef76b7;
+      --cyan: #2dbec7;
+      --dark: #0f1728;
+      --radius-lg: 22px;
+      --radius-md: 14px;
+      --container: 1140px;
+      --shadow: 0 16px 34px rgba(16, 52, 103, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "Manrope", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 30px));
+      margin: 0 auto;
+      padding: 14px 0 72px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 10px;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      padding: 10px 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #4d678e;
+      font-size: 15px;
+      font-weight: 700;
+      transition: color .2s ease;
+    }
+    .nav a:hover { color: var(--blue); }
+
+    .actions { display: flex; gap: 8px; }
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--text);
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .btn {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 11px 18px;
+      border: 1px solid transparent;
+      font-size: 15px;
+      font-weight: 800;
+      transition: transform .2s ease, box-shadow .2s ease;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn--main {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+      box-shadow: 0 10px 22px rgba(29, 116, 232, 0.27);
+    }
+    .btn--ghost {
+      background: #fff;
+      color: var(--text);
+      border-color: var(--line);
+    }
+
+    .section { margin-top: 72px; }
+    .section + .section { margin-top: 86px; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: #eaf2ff;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 4.6vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -.03em;
+      max-width: 16ch;
+    }
+
+    .lead {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 20px;
+      max-width: 56ch;
+    }
+
+    .hero-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-tags {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: #45628f;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 7px 12px;
+    }
+
+    .hero-media {
+      position: relative;
+      min-height: 390px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, #f8fbff 0%, #edf4ff 100%);
+      overflow: visible;
+      padding: 14px;
+    }
+
+    .hero-img {
+      width: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid #d1e0f3;
+      background: #fff;
+      image-rendering: auto;
+    }
+
+    .bubble {
+      position: absolute;
+      border: 1px solid #d3e2f5;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: var(--shadow);
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #385984;
+      animation: bob 4s ease-in-out infinite;
+    }
+    .bubble-a { left: -14px; top: 100px; }
+    .bubble-b { right: -16px; top: 34px; animation-delay: .8s; }
+    .bubble-c { right: 18px; bottom: -12px; animation-delay: 1.5s; }
+
+    .impact {
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      background: linear-gradient(180deg, #eef3fa 0%, #f4f8fd 100%);
+      border: 1px solid #e2eaf6;
+    }
+
+    .impact h2 {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(30px, 3.8vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+    }
+
+    .impact-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .impact-card {
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 18px;
+      min-height: 138px;
+      box-shadow: 0 8px 18px rgba(17, 52, 102, 0.05);
+    }
+
+    .impact-card strong {
+      display: block;
+      font-size: 64px;
+      line-height: .95;
+      letter-spacing: -.03em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .impact-card p { margin: 0; color: #5b749a; font-size: 17px; }
+    .c-green strong { color: var(--green); }
+    .c-orange strong { color: var(--orange); }
+    .c-blue strong { color: var(--blue); }
+
+    .integrations h2,
+    .pricing-wrap h2,
+    .packages h2,
+    .faq-wrap h2 {
+      margin: 0;
+      font-size: clamp(38px, 4.2vw, 62px);
+      line-height: 1.08;
+      letter-spacing: -.03em;
+    }
+
+    .integrations-sub,
+    .pricing-sub,
+    .packages-sub,
+    .faq-sub {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 60ch;
+    }
+
+    .integration-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .integration-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 14px;
+      box-shadow: 0 8px 18px rgba(17, 52, 102, 0.06);
+      transition: transform .22s ease;
+    }
+    .integration-item:hover { transform: translateY(-3px); }
+
+    .integration-item i {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 10px;
+      font-size: 17px;
+    }
+    .ico-blue { background: var(--blue); }
+    .ico-green { background: var(--green); }
+    .ico-orange { background: var(--orange); }
+    .ico-violet { background: var(--violet); }
+    .integration-item h3 { margin: 0 0 5px; font-size: 18px; }
+    .integration-item p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .showcase {
+      margin-top: 22px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .show-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+    .show-row:nth-child(even) .show-text { order: 2; }
+    .show-row:nth-child(even) .show-img-wrap { order: 1; }
+
+    .show-text h3 { margin: 0 0 6px; font-size: 30px; line-height: 1.15; }
+    .show-text p { margin: 0; color: var(--muted); font-size: 18px; }
+
+    .show-img {
+      width: 100%;
+      min-height: 260px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid #bfd0e7;
+      background: #fff;
+      image-rendering: auto;
+    }
+
+    .pricing-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .plan {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(17, 52, 102, 0.08);
+    }
+    .plan-head {
+      padding: 24px;
+      border-top: 5px solid transparent;
+    }
+    .plan--free .plan-head { border-top-color: var(--green); }
+    .plan--uni .plan-head { border-top-color: var(--orange); }
+    .plan-label { color: #577094; font-size: 13px; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+    .plan-name { margin: 2px 0 0; font-size: 60px; line-height: 1; letter-spacing: -.03em; font-weight: 800; }
+    .plan--free .plan-name { color: var(--green); }
+    .plan--uni .plan-name { color: var(--orange); }
+    .plan-note { margin: 10px 0 0; color: var(--muted); font-size: 18px; }
+
+    .plan-body { border-top: 1px solid var(--line); padding: 24px; }
+    .plan-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+    .plan-list li { display: flex; gap: 9px; align-items: flex-start; font-size: 19px; color: #35547e; }
+    .plan-list i { width: 18px; margin-top: 2px; }
+    .plan--free .plan-list i { color: var(--green); }
+    .plan--uni .plan-list i { color: var(--orange); }
+
+    .pack-table {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: auto;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(17, 52, 102, 0.08);
+    }
+
+    table { width: 100%; min-width: 900px; border-collapse: collapse; }
+    th, td {
+      padding: 18px 18px;
+      border-bottom: 1px solid #e8eef8;
+      font-size: 18px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .price-cell {
+      line-height: 1.2;
+    }
+    .price-main {
+      display: block;
+      font-weight: 800;
+    }
+    .price-alt {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 14px;
+      color: #4f6a93;
+      background: #eef4ff;
+      border: 1px solid #d6e2f5;
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+    th {
+      background: #f8fbff;
+      color: #50688e;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .yes { color: var(--green); font-weight: 800; }
+    .no { color: #b6c4d9; font-weight: 800; }
+
+    .faq-list { margin-top: 18px; }
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      margin-bottom: 11px;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(17, 52, 102, 0.06);
+    }
+    .faq-item:last-child { margin-bottom: 0; }
+
+    .faq-btn {
+      width: 100%;
+      border: 0;
+      background: #fff;
+      text-align: left;
+      padding: 18px;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .faq-btn i { color: #6c84aa; transition: transform .25s ease; }
+    .faq-item.is-open .faq-btn i { transform: rotate(45deg); }
+
+    .faq-answer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .3s ease;
+      background: #fff;
+    }
+    .faq-answer > div {
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 20px;
+      padding: 0 18px;
+    }
+    .faq-item.is-open .faq-answer { grid-template-rows: 1fr; }
+    .faq-item.is-open .faq-answer > div { padding: 0 18px 18px; }
+
+    .final-cta {
+      margin-top: 82px;
+      position: relative;
+      border-radius: 34px;
+      background: var(--dark);
+      color: #fff;
+      padding: 40px;
+      min-height: 340px;
+      overflow: visible;
+    }
+
+    .final-cta h2 {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(36px, 4.2vw, 58px);
+      line-height: 1.08;
+      max-width: 14ch;
+      letter-spacing: -.03em;
+    }
+
+    .final-cta p {
+      margin: 14px 0 0;
+      color: #c3d2e8;
+      font-size: 20px;
+      max-width: 42ch;
+    }
+
+    .final-cta .btn {
+      margin-top: 16px;
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+      box-shadow: 0 10px 20px rgba(35, 179, 99, 0.28);
+    }
+
+    .cta-photo {
+      position: absolute;
+      right: -22px;
+      bottom: -12px;
+      width: min(46%, 500px);
+      min-width: 280px;
+      border-radius: 18px;
+      border: 1px solid #324566;
+      box-shadow: 0 28px 40px rgba(5, 10, 22, 0.35);
+      transform: rotate(-2deg);
+      transform-origin: right bottom;
+      background: #fff;
+      image-rendering: auto;
+    }
+
+    .pro-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #1d74e8;
+      color: #fff;
+      font-size: .72em;
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      margin: 0 4px 0 2px;
+    }
+
+    img {
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
+      pointer-events: none;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .58s ease, transform .58s ease;
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    @keyframes bob {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+
+    @keyframes tilt {
+      0% { transform: rotate(-2deg) translateY(0); }
+      50% { transform: rotate(-1deg) translateY(-5px); }
+      100% { transform: rotate(-2deg) translateY(0); }
+    }
+
+    @media (max-width: 1100px) {
+      .container { width: min(920px, calc(100% - 20px)); }
+      .hero { grid-template-columns: 1fr; }
+      .impact-grid, .integration-grid, .pricing-grid, .show-row { grid-template-columns: 1fr; }
+      .show-row:nth-child(even) .show-text,
+      .show-row:nth-child(even) .show-img-wrap { order: initial; }
+      .final-cta { padding-bottom: 280px; }
+      .cta-photo {
+        right: 16px;
+        bottom: -12px;
+        width: min(58%, 430px);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(700px, calc(100% - 16px)); }
+      .section { margin-top: 44px; }
+      .topbar {
+        border-radius: 16px;
+        flex-wrap: nowrap;
+        gap: 8px;
+        padding: 10px;
+        align-items: center;
+      }
+      .topbar.is-open { flex-wrap: wrap; }
+      .brand { font-size: 16px; }
+      .menu-toggle {
+        display: inline-flex;
+        margin-left: auto;
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+      }
+      .nav {
+        order: 4;
+        width: 100%;
+        flex: 0 0 100%;
+        gap: 6px;
+        grid-template-columns: 1fr;
+        display: none;
+        margin-top: 8px;
+      }
+      .nav a {
+        white-space: normal;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 7px 10px;
+        background: #fff;
+        font-size: 13px;
+        width: 100%;
+      }
+      .actions {
+        order: 5;
+        width: 100%;
+        flex: 0 0 100%;
+        display: none;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .actions .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .topbar.is-open .nav {
+        display: grid;
+      }
+      .topbar.is-open .actions {
+        display: grid;
+      }
+      h1 { font-size: clamp(28px, 7vw, 42px); }
+      .lead { font-size: 16px; }
+      .hero-img { min-height: 280px; }
+      .impact-card strong { font-size: 46px; }
+      .show-text h3 { font-size: 24px; }
+      .show-text p, .integrations-sub, .pricing-sub, .packages-sub, .faq-sub { font-size: 15px; }
+      .plan-name { font-size: 46px; }
+      .plan-list li { font-size: 16px; }
+      th, td { font-size: 14px; padding: 10px 10px; }
+      .faq-btn { font-size: 20px; padding: 14px; }
+      .faq-answer > div { font-size: 14px; padding: 0 14px; }
+      .faq-item.is-open .faq-answer > div { padding: 0 14px 14px; }
+      .final-cta { padding: 24px 16px 240px; border-radius: 20px; }
+      .final-cta p { font-size: 16px; }
+      .cta-photo { right: 10px; width: min(74%, 360px); min-width: 220px; }
+    }
+
+    @media (max-width: 520px) {
+      .brand { width: auto; text-align: left; font-size: 16px; }
+      .actions { grid-template-columns: 1fr; }
+      .hero-actions .btn { width: 100%; }
+      .hero-tags { display: grid; grid-template-columns: 1fr; }
+      .tag { text-align: center; }
+      .bubble { display: none; }
+      .impact-card strong { font-size: 40px; }
+      .cta-photo { right: 0; left: 0; margin: 0 auto; width: 86%; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <a href="#" class="brand">WEB HACKER</a>
+      <button class="menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <nav class="nav">
+        <a href="#why">Почему мы</a>
+        <a href="#platform">Платформа</a>
+        <a href="#pricing">Тарифы</a>
+        <a href="#university">Пакеты вуза</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="actions">
+        <a href="/catalog/search" class="btn btn--ghost">Каталог</a>
+        <a href="/auth" class="btn btn--main">Начать бесплатно</a>
+      </div>
+    </header>
+
+    <section class="section hero reveal">
+      <div>
+        <span class="eyebrow"><i class="fa-solid fa-circle-check"></i> Платформа для преподавателей и студентов</span>
+        <h1>Создавайте курсы и обучайте в одной системе</h1>
+        <p class="lead">Курсы, уроки, тесты, прогресс и сертификаты в одном месте с быстрым стартом.</p>
+        <div class="hero-actions">
+          <a href="/auth" class="btn btn--main">Начать бесплатно</a>
+          <a href="#pricing" class="btn btn--ghost">Смотреть тарифы</a>
+        </div>
+        <div class="hero-tags">
+          <span class="tag">Бесплатный старт</span>
+          <span class="tag">Пакеты 1.0 / 2.0 / 3.0</span>
+          <span class="tag">Преподаватели и студенты</span>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img class="hero-img" alt="Скрин платформы" loading="lazy" src="img/start.png">
+        <div class="bubble bubble-a">Курсы</div>
+        <div class="bubble bubble-b">Уроки</div>
+        <div class="bubble bubble-c">Тесты</div>
+      </div>
+    </section>
+
+    <section class="section impact reveal">
+      <h2>Что доступно на платформе</h2>
+      <div class="impact-grid">
+        <article class="impact-card c-green"><strong>0 ₽</strong><p>Старт без оплаты</p></article>
+        <article class="impact-card c-orange"><strong>3</strong><p>Пакета для вуза</p></article>
+        <article class="impact-card c-blue"><strong>24/7</strong><p>Доступ к платформе</p></article>
+      </div>
+    </section>
+
+    <section id="why" class="section integrations reveal">
+      <h2>Почему выбирают WEB HACKER</h2>
+      <p class="integrations-sub">Платформа помогает преподавателю вести учебный процесс: создавать курсы и уроки, проверять задания и видеть прогресс группы.</p>
+      <div class="integration-grid">
+        <article class="integration-item"><i class="fa-solid fa-bolt ico-blue"></i><h3>Быстрый запуск</h3><p>Создание и публикация курса за короткое время.</p></article>
+        <article class="integration-item"><i class="fa-solid fa-book-open ico-green"></i><h3>Учебная структура</h3><p>Уроки, материалы и тесты в единой логике.</p></article>
+        <article class="integration-item"><i class="fa-solid fa-chart-line ico-orange"></i><h3>Контроль результата</h3><p>Прогресс по шагам и сертификаты.</p></article>
+        <article class="integration-item"><i class="fa-solid fa-users ico-violet"></i><h3>Работа с группами</h3><p>Подходит для потоков и учебных программ вуза.</p></article>
+      </div>
+    </section>
+
+    <section id="platform" class="section reveal">
+      <h2>Как выглядит платформа</h2>
+      <div class="showcase">
+        <article class="show-row">
+          <div class="show-text">
+            <h3>Создание курса</h3>
+            <p>Создать курс можно за пару минут.</p>
+          </div>
+          <div class="show-img-wrap">
+            <img class="show-img" loading="lazy" alt="Экран создания курса" src="img/createCourse.png">
+          </div>
+        </article>
+
+        <article class="show-row">
+          <div class="show-text">
+            <h3>Уроки и тесты</h3>
+            <p>Материалы, задания, вопросы и проверка знаний внутри курса.</p>
+          </div>
+          <div class="show-img-wrap">
+            <img class="show-img" loading="lazy" alt="Экран урока и теста" src="img/lessonTest.png">
+          </div>
+        </article>
+
+        <article class="show-row">
+          <div class="show-text">
+            <h3>Прогресс и результат</h3>
+            <p>Процент прохождения и итоговый сертификат.</p>
+          </div>
+          <div class="show-img-wrap">
+            <img class="show-img" loading="lazy" alt="Экран прогресса" src="img/certificate.png">
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="pricing" class="section pricing-wrap reveal">
+      <h2>Тарифы</h2>
+      <div class="pricing-grid">
+        <article class="plan plan--free">
+          <div class="plan-head">
+            <div class="plan-label">Тариф</div>
+            <p class="plan-name">Бесплатный</p>
+            <p class="plan-note">0 ₽ в месяц</p>
+          </div>
+          <div class="plan-body">
+            <ul class="plan-list">
+              <li><i class="fa-solid fa-book-open"></i><span>Создание курсов</span></li>
+              <li><i class="fa-solid fa-certificate"></i><span>Выдача сертификатов</span></li>
+              <li><i class="fa-solid fa-user-gear"></i><span>Настройка профиля</span></li>
+              <li><i class="fa-solid fa-chart-simple"></i><span>Статистика курса</span></li>
+              <li><i class="fa-solid fa-sitemap"></i><span>Конструктор курсов</span></li>
+              <li><i class="fa-solid fa-users-gear"></i><span>Команда курса</span></li>
+              <li><i class="fa-solid fa-mobile-screen-button"></i><span>Веб-приложение PWA</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="plan plan--uni">
+          <div class="plan-head">
+            <div class="plan-label">Тариф</div>
+            <p class="plan-name">Для вуза</p>
+            <p class="plan-note">Пакеты 1.0, 2.0, 3.0</p>
+          </div>
+          <div class="plan-body">
+            <ul class="plan-list">
+              <li><i class="fa-solid fa-layer-group"></i><span>Все из бесплатного тарифа</span></li>
+              <li><i class="fa-solid fa-sitemap"></i><span>Конструктор курсов <span class="pro-badge">PRO</span>: рецензии, контрольные работы, шаг с файлами</span></li>
+              <li><i class="fa-solid fa-cloud"></i><span>Облачное хранилище</span></li>
+              <li><i class="fa-solid fa-bullhorn"></i><span>Продвижение курсов</span></li>
+              <li><i class="fa-solid fa-graduation-cap"></i><span>Управление обучением: учебные группы, добавление курсов в группы</span></li>
+              <li><i class="fa-solid fa-video"></i><span>ВКС: онлайн-занятия, посещаемость, оповещения, чаты в видеоуроке</span></li>
+              <li><i class="fa-solid fa-comments"></i><span>Чаты: личные и групповые</span></li>
+              <li><i class="fa-solid fa-chart-column"></i><span>Аналитика обучения: статистика, отчеты, отправка отчетов на почту</span></li>
+              <li><i class="fa-solid fa-headset"></i><span>Тех поддержка</span></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="university" class="section packages reveal">
+      <h2>Пакеты для вуза</h2>
+      <p class="packages-sub">1.0 доступен сразу после подключения, 2.0 и 3.0 — расширенные пакеты.</p>
+      <div class="pack-table">
+        <table>
+          <thead>
+            <tr><th>Параметр</th><th>1.0</th><th>2.0</th><th>3.0</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Цена</td>
+              <td class="yes">Бесплатно</td>
+              <td class="yes price-cell">
+                <span class="price-main">897 000 ₽ в год</span>
+                <span class="price-alt">или 90 000 ₽/мес</span>
+              </td>
+              <td class="yes price-cell">
+                <span class="price-main">2 270 000 ₽ в год</span>
+                <span class="price-alt">или 210 000 ₽/мес</span>
+              </td>
+            </tr>
+            <tr><td>Сотрудники</td><td>1</td><td>50</td><td>200</td></tr>
+            <tr><td>Курсы</td><td>3</td><td>50</td><td>250</td></tr>
+            <tr><td>Студенты</td><td>30</td><td class="yes"><i class="fa-solid fa-infinity"></i> Безлимит</td><td class="yes"><i class="fa-solid fa-infinity"></i> Безлимит</td></tr>
+            <tr><td>Лимит групп</td><td>1</td><td>120</td><td>500</td></tr>
+            <tr><td>Управление обучением</td><td class="yes">Да</td><td class="yes">Да</td><td class="yes">Да</td></tr>
+            <tr><td>Чаты</td><td class="no">Нет</td><td class="yes">Да</td><td class="yes">Да</td></tr>
+            <tr><td>Аналитика по обучению</td><td class="no">Нет</td><td class="yes">Да</td><td class="yes">Да</td></tr>
+            <tr><td>ВКС</td><td class="no">Нет</td><td class="no">Нет</td><td class="yes">Да</td></tr>
+            <tr><td>Техподдержка 24/7</td><td class="no">Нет</td><td class="yes">Да</td><td class="yes">Да</td></tr>
+            <tr><td>Облачное хранилище</td><td class="no">Нет</td><td class="yes">10 ГБ</td><td class="yes">25 ГБ</td></tr>
+            <tr><td>Конструктор курсов <span class="pro-badge">PRO</span></td><td class="no">Нет</td><td class="yes">Да</td><td class="yes">Да</td></tr>
+            <tr><td>Продвижение курсов</td><td class="no">Нет</td><td class="yes">Да</td><td class="yes">Да</td></tr>
+            <tr><td>Импорт сотрудников и студентов</td><td class="no">Нет</td><td class="no">Нет</td><td class="yes">Да</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq-wrap reveal">
+      <h2>FAQ</h2>
+      <p class="faq-sub">Ответы на частые вопросы по запуску и пакетам.</p>
+      <div class="faq-list">
+        <article class="faq-item is-open">
+          <button class="faq-btn" type="button">Какой тариф при регистрации?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><div>При регистрации все пользователи получают бесплатный тариф.</div></div>
+        </article>
+        <article class="faq-item">
+          <button class="faq-btn" type="button">Как подключается пакет вуза?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><div>Вуз сам выбирает и подключает тариф. По умолчанию подключается пакет 1.0.</div></div>
+        </article>
+        <article class="faq-item">
+          <button class="faq-btn" type="button">Можно перейти на другой пакет позже?<i class="fa-solid fa-plus"></i></button>
+          <div class="faq-answer"><div>Да, перейти на нужный пакет можно в любой момент.</div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="final-cta reveal">
+      <h2>Запускайте курсы вместе с WEB HACKER</h2>
+      <p>Начните с бесплатного тарифа, затем подключите пакет для вуза под вашу учебную нагрузку.</p>
+      <a href="/auth" class="btn">Начать бесплатно</a>
+      <img class="cta-photo" loading="lazy" alt="Скрин интерфейса" src="img/catalog.png">
+    </section>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach((a) => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if (!id || id === '#') return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    const topbar = document.querySelector('.topbar');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const topbarLinks = document.querySelectorAll('.topbar .nav a, .topbar .actions a');
+
+    if (topbar && menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        const isOpen = topbar.classList.toggle('is-open');
+        menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        menuToggle.innerHTML = isOpen
+          ? '<i class="fa-solid fa-xmark"></i>'
+          : '<i class="fa-solid fa-bars"></i>';
+      });
+
+      topbarLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 760) {
+            topbar.classList.remove('is-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+          }
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 760) {
+          topbar.classList.remove('is-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          menuToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+        }
+      });
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${Math.min(i * 45, 260)}ms`;
+      revealObserver.observe(el);
+    });
+
+    document.querySelectorAll('.faq-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const root = item?.parentElement;
+        if (!item || !root) return;
+
+        const open = item.classList.contains('is-open');
+        root.querySelectorAll('.faq-item').forEach((it) => it.classList.remove('is-open'));
+        if (!open) item.classList.add('is-open');
+      });
+    });
+
+    document.querySelectorAll('img').forEach((img) => {
+      img.setAttribute('draggable', 'false');
+      img.addEventListener('dragstart', (e) => e.preventDefault());
+      img.addEventListener('contextmenu', (e) => e.preventDefault());
+    });
+  </script>
+</body>
+</html>
