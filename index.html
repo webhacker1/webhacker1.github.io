@@ -28,6 +28,7 @@
       --radius-md: 14px;
       --container: 1140px;
       --shadow: 0 16px 34px rgba(16, 52, 103, 0.08);
+      --red: #e03a3a;
     }
 
     * { box-sizing: border-box; }
@@ -405,21 +406,48 @@
       vertical-align: top;
     }
     .price-cell {
-      line-height: 1.2;
+      line-height: 1.3;
     }
     .price-main {
       display: block;
       font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .price-old {
+      text-decoration: line-through;
+      text-decoration-color: #b6c4d9;
+      text-decoration-thickness: 1.5px;
+      color: #b6c4d9;
+      font-weight: 500;
+      font-size: 18px;
+      margin-right: 8px;
+    }
+    .price-new {
+      display: inline-block;
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--green);
+      /* фон убран */
     }
     .price-alt {
       display: inline-block;
       margin-top: 6px;
-      font-size: 14px;
+      font-size: 13px; /* чуть меньше */
       color: #4f6a93;
-      background: #eef4ff;
-      border: 1px solid #d6e2f5;
-      border-radius: 999px;
-      padding: 3px 10px;
+      /* фон и обводка убраны */
+    }
+    .price-alt .price-old {
+      font-size: 13px;
+      margin-right: 5px;
+    }
+    .price-alt .price-new {
+      font-size: 15px;
+    }
+    .discount-star {
+      color: #ef912f;
+      font-size: 18px;
+      margin-left: 4px;
+      vertical-align: middle;
     }
     th {
       background: #f8fbff;
@@ -629,6 +657,16 @@
       color: #8a9bb4;
       font-size: 12px;
       white-space: nowrap;
+    }
+
+    .star-note {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #8a9bb4;
+    }
+    .star-note span {
+      color: #ef912f;
+      margin-right: 4px;
     }
 
     img {
@@ -923,15 +961,27 @@
           </thead>
           <tbody>
             <tr>
-              <td>Цена</td>
+              <td>Цена <span class="discount-star">*</span></td>
               <td class="yes">Бесплатно</td>
               <td class="yes price-cell">
-                <span class="price-main">897 000 ₽ в год</span>
-                <span class="price-alt">или 90 000 ₽/мес</span>
+                <span class="price-main">
+                  <span class="price-old">1 281 429 ₽</span>
+                  <span class="price-new">897 000 ₽</span> в год
+                </span>
+                <span class="price-alt">
+                  <span class="price-old">128 572 ₽</span>
+                  <span class="price-new">90 000 ₽</span>/мес
+                </span>
               </td>
               <td class="yes price-cell">
-                <span class="price-main">2 270 000 ₽ в год</span>
-                <span class="price-alt">или 210 000 ₽/мес</span>
+                <span class="price-main">
+                  <span class="price-old">3 242 857 ₽</span>
+                  <span class="price-new">2 270 000 ₽</span> в год
+                </span>
+                <span class="price-alt">
+                  <span class="price-old">300 000 ₽</span>
+                  <span class="price-new">210 000 ₽</span>/мес
+                </span>
               </td>
             </tr>
             <tr><td>Сотрудники</td><td>1</td><td>50</td><td>200</td></tr>
@@ -983,6 +1033,9 @@
         <div>
           <p class="footer-brand">WEB HACKER</p>
           <p class="footer-desc">Платформа для преподавателей и учеников: создавайте курсы, делитесь знаниями и обучайтесь в одном месте.</p>
+          <div class="star-note">
+            <span>*</span> Скидка 30% действует только для первого вуза при подключении пакетов 2.0 или 3.0.
+          </div>
         </div>
 
         <div class="footer-nav">
